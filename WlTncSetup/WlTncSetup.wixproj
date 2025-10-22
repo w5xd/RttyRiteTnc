@@ -1,0 +1,13 @@
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+  <Import Project="..\WlTncVersion.props" />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DefineConstants>Debug</DefineConstants>
+    <Platforms>x86;ARM64</Platforms>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DefineConstants>TNC_INSTALL_PROJECT_VERSION=$(TncVersion1).$(TncVersion2).$(TncVersion3)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputName>$(MSBuildProjectName).$(TncVersion1).$(TncVersion2).$(TncVersion3)</OutputName>
+  </PropertyGroup>
+</Project>

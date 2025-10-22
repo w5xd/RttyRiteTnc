@@ -1,0 +1,63 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <?define TNC_FILENAME = WlTncABC?>
+    <?define TNC_OBJECT_GUID = {1a891ad9-504d-45df-91f7-439bbe294cdb}?>    <!-- From WlTnc.idl, coclass -->
+    <!-- CUSTOMIZE THESE GUIDS:
+        UpgradeCode="56860497-de09-4b63-8adf-a57be6a7888b"   Appears in TWO places below!
+        Guid="{076BA5F5-E1FA-494C-99DC-52C005EC5041}"  in the <Component> below
+        -->
+    <Package Name="$(var.TNC_FILENAME)Setup" Language="1033" Version="$(var.TNC_INSTALL_PROJECT_VERSION)" Manufacturer="WriteLog Contesting Software LLC"
+             UpgradeCode="56860497-de09-4b63-8adf-a57be6a7888b"
+             InstallerVersion="200">
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+        <Upgrade Id="6F5FD1B8-1F40-49ba-B540-9B41A2C74DEE">
+            <!--WriteLog V11-->
+            <UpgradeVersion OnlyDetect="yes" Property="PREVIOUSFOUND11" Minimum="11.0.0" IncludeMinimum="yes" Maximum="12.0.0" IncludeMaximum="no" />
+        </Upgrade>
+
+        <Upgrade Id="9AFD6A49-5FD4-4F3C-9CC5-49B2BE507FDC">
+            <!--WriteLog V12-->
+            <UpgradeVersion OnlyDetect="yes" Property="PREVIOUSFOUND12" Minimum="12.0.0" IncludeMinimum="yes" Maximum="13.0.0" IncludeMaximum="no" />
+        </Upgrade>
+
+        <Upgrade Id="56860497-de09-4b63-8adf-a57be6a7888b">
+            <!--Self-->
+            <UpgradeVersion OnlyDetect="no" Property="PREVIOUSTESTINSTALLPROJECTFOUND" Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.TNC_INSTALL_PROJECT_VERSION)" IncludeMaximum="no" />
+        </Upgrade>
+
+        <Property Id="INSTALLDIRREG">
+            <RegistrySearch Id="WlInstallDirReg32" Key="SOFTWARE\W5XD\Writelog\Install" Name="Directory" Root="HKLM" Type="directory" Bitness="always32" />
+        </Property>
+        <Property Id="INSTALLDIREXISTSREG">
+            <DirectorySearch Id="CheckFileDir" Path="[INSTALLDIRREG]Programs" Depth="0">
+                <FileSearch Id="CheckWlExeReg" Name="wlogsh32.dll" />
+            </DirectorySearch>
+        </Property>
+
+        <MediaTemplate EmbedCab="yes" />
+        <Feature Id="ProductFeature" Title="WlTncSetup" Level="1">
+            <ComponentRef Id="PROJECT.dll"/>
+        </Feature>
+    </Package>
+
+    <Fragment>
+        <StandardDirectory Id="ProgramFilesFolder">
+            <Directory Id="INSTALLDIR" Name="WriteLog">
+                <Directory Id="WlPrograms" Name="Programs">
+                    <Component Id="PROJECT.dll" Guid="{076BA5F5-E1FA-494C-99DC-52C005EC5041}" Bitness="always32">
+                        <File Id="WlTnc.dll" KeyPath="yes"  Checksum="yes" Source="..\Release\$(var.TNC_FILENAME).dll" />
+                        <RegistryKey Root="HKCR" Key="WriteLog.$(var.TNC_FILENAME)" >
+                            <RegistryValue Key="CLSID" Type="string" Value="$(var.TNC_OBJECT_GUID)"/>
+                        </RegistryKey>
+                        <RegistryKey  Root="HKCR" Key="CLSID\$(var.TNC_OBJECT_GUID)">
+                            <RegistryValue Key="InprocServer32"  Value = "[WlPrograms]$(var.TNC_FILENAME).dll" Type = "string"  />
+                        </RegistryKey>
+                        <RegistryKey Root="HKLM" Key="Software\W5XD\WriteLog\RttyRite">
+                            <RegistryValue Name="CustomTnc1MenuEntry" Value="Custom $(var.TNC_FILENAME)"/>
+                            <RegistryValue Name="CustomTnc1ProgId" Value="WriteLog.$(var.TNC_FILENAME)"/>
+                        </RegistryKey>
+                    </Component>
+                </Directory>
+            </Directory>
+        </StandardDirectory>
+    </Fragment>
+</Wix>

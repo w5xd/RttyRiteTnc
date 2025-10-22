@@ -1,0 +1,98 @@
+// Custom TNC interfaces for WriteLog's RttyRite program
+// Wayne Wright, W5XD
+// June 30, 2001
+//
+// Two interfaces are defined here. One for TNC's to implement, the other is implemented by
+// RttyRite so that the TNC can call it back.
+//
+// Note that BSTR's are NOT used for characters here. unsigned char is used instead.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+	enum WlTncCharFlag {
+		WLTNC_RXEND_CHAR = 0xA7,	// This character on NextNXmitChars means switch to receive
+	};
+
+	// RttyRite implements this interface
+	[
+		uuid(64FA5DF0-968D-492d-BF76-B58E44F4F7AC),
+		helpstring("IWlTncCallBack Interface"),
+		pointer_default(unique)
+	]
+	interface IWlTncCallBack : IUnknown
+	{
+		[helpstring("method GetWriteLogUnk")] HRESULT GetWriteLogUnk([out,retval] IUnknown **pUnk);
+		[helpstring("method GetWriteLogEntry")] HRESULT GetWriteLogEntry([out,retval] IUnknown **pUnk);
+		[helpstring("method SetBaudotLetters")] HRESULT SetBaudotLetters(
+					[in] short Ltrs		// Ltrs = 1 gives LTRS, -1 gives FIGS (only LTRS supported)
+					);
+		[helpstring("method AddChar")] HRESULT AddChar(
+				[in] char NewChar,
+				[in] short FromWho, // 1: mark as received, 2: mark as transmitted
+				[in] short Dupe	 // should always be 1
+				);
+		[helpstring("method AddString")] HRESULT AddString(
+				[in,string] char *pStr, 
+				[in] short FromWho, // 1: mark as received, 2: mark as transmitted
+				[in] short Dupe // should always be 1
+				);
+		[helpstring("method ReplaceTimer")] HRESULT ReplaceTimer([in] short TimeMsec);
+
+		[helpstring("method NextNXmitChars")] HRESULT NextNXmitChars(
+					[in] long Want, 
+					[out] long *pGot,
+					[out,size_is(Want), length_is(*pGot)] char *pChars);
+		[helpstring("method RemoveNXmitChars")] HRESULT RemoveNXmitChars([in] short Count);
+
+		//Use this HWND only for setting parents of dialogs
+		[propget, helpstring("property MainHWND")] HRESULT MainHWND([out, retval] long *pVal);
+	};
+
+	enum WlTncModeMask {
+		WLTNC_CAN_DO_CW = 1,
+		WLTNC_CAN_DO_PSK = 2,
+		WLTNC_CAN_DO_RTTY = 4,
+	};
+
+	enum WlTncSpeeds {
+		WLTNC_SPEED_45,
+		WLTNC_SPEED_50,
+		WLTNC_SPEED_57,
+		WLTNC_SPEED_72,
+		WLTNC_SPEED_ASCII,
+		WLTNC_SPEED_BPSK,
+		WLTNC_SPEED_QPSKU,
+		WLTNC_SPEED_QPSKL,
+		WLTNC_SPEED_CW
+	};
+
+
+	// A TNC implements this interface
+	[
+		uuid(E85D0135-63FE-45a3-A680-97467B1E7D2C),
+		helpstring("IWlTnc Interface"),
+		pointer_default(unique)
+	]
+	interface IWlTnc : IUnknown
+	{
+		[helpstring("method SetFskReverse")] HRESULT SetFskReverse([in] short Xmit, [in] short Rcv); //non zero means set reverse
+		[helpstring("method GetFskReverse")] HRESULT GetFskReverse([out] short *pXmit, [out] short *pRcv);	//read back what was set
+		[helpstring("method ConfigureTnc")] HRESULT ConfigureTnc();	// put up a dialog box for the TNC, if necessary
+		[helpstring("method CanConfigureTnc")] HRESULT CanConfigureTnc(); // S_OK means yes, S_FALSE means no
+		[helpstring("method SetupCommPort")] HRESULT SetupCommPort([in] short CommPortNumber); // 1 is COM1, 2 is COM2, etc.
+		[helpstring("method SetSpeedIndex")] HRESULT SetSpeedIndex([in] enum WlTncSpeeds Speed);	// TNC switch to this mode
+		[helpstring("method PeekProc")] HRESULT PeekProc(); // called every 10msec
+		[helpstring("method TimerProc")] HRESULT TimerProc();	// called at ReplaceTimer intervals
+		[helpstring("method XmitNow")] HRESULT XmitNow();		// TNC should xmit now
+		[helpstring("method ReceiveNow")] HRESULT ReceiveNow();	// TNC shoudd rcv now
+		[helpstring("method LettersNow")] HRESULT LettersNow();	// force baudot conversion to LTRS now.
+		[propget, helpstring("property AfcState")] HRESULT AfcState([out, retval] short *pVal);
+		[propput, helpstring("property AfcState")] HRESULT AfcState([in] short newVal);
+		[propget, helpstring("property ModeMask")] HRESULT ModeMask([out, retval] enum WlTncModeMask *pVal); //report supported modes
+
+		// This will be the first call after creation.
+		[helpstring("method SetCallBack")] HRESULT SetCallBack([in] IWlTncCallBack *pCallBack);
+	};
+
+

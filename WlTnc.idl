@@ -1,0 +1,28 @@
+// WlTnc.idl : IDL source for WlTnc
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (WlTnc.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "customtnc.idl";
+
+
+[
+	uuid(9a1ee755-f1eb-44e4-96e2-1a891d583999),
+	version(1.0),
+]
+library WlTncLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(1a891ad9-504d-45df-91f7-439bbe294cdb)
+	]
+	coclass WlTncA
+	{
+		[default] interface IWlTnc;
+	};
+};
+
+import "shobjidl.idl";
