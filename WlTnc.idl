@@ -10,14 +10,14 @@ import "customtnc.idl";
 
 
 [
-	uuid(9a1ee755-f1eb-44e4-96e2-1a891d583999),
+	uuid(94A1B6B7-B462-4F0E-A190-C3B92A966D90),
 	version(1.0),
 ]
 library WlTncLib
 {
 	importlib("stdole2.tlb");
 	[
-		uuid(1a891ad9-504d-45df-91f7-439bbe294cdb)
+		uuid(785E8A35-3D60-4677-9F93-E572D921F320)
 	]
 	coclass WlTncA
 	{

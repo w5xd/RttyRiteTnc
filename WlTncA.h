@@ -2,7 +2,6 @@
 
 #pragma once
 #include "resource.h"       // main symbols
-
 #include "WlTnc_i.h"
 
 
@@ -29,14 +28,9 @@ public:
 
     DECLARE_PROTECT_FINAL_CONSTRUCT()
 
-    HRESULT FinalConstruct()
-    {
-        return S_OK;
-    }
+    HRESULT FinalConstruct();
 
-    void FinalRelease()
-    {
-    }
+    void FinalRelease();
 
 public:
     // IWlTnc
@@ -60,26 +54,39 @@ public:
     STDMETHODIMP SetCallBack(IWlTncCallBack* pCallBack);
 
 protected:
-    CComPtr<IWlTncCallBack>	m_pCallback;
-
-    // TNC may need intermediate states to transition between rcv/xmit. Test code
-    // only has two states.
-    enum
-    {
-        RECEIVE,
-        TRANSMIT
-    }    m_XmitState;
-
+    void CloseComm();
     void OnReceiveTimer(void);
     void OnTransmitTimer(void);
+    void CommandsToModem(const std::string &);
+    unsigned WriteModem(const char *, unsigned);
+    std::vector<char> ReadModem();
+    void logGetLastError(const std::string &);
+    void TimeStamp(std::string &);
+    void checkCommDisconnect();
 
+    // TNC may need intermediate states to transition between rcv/xmit.
+    enum XmitState_t
+    {
+        RECEIVE,
+        TRANSMIT,
+    }    m_XmitState;
 
-    //TEST
-    enum { CHARS_PER_TIMER = 3, };
-    char	m_NextReceivedLetter;
+    enum XmitState_t m_readState;
+
+    HANDLE m_CommChannel;
     bool   m_announcedVersion;
+    bool   m_firstCharXmitted;
+    CComPtr<IWlTncCallBack>	m_pCallback;
+    OVERLAPPED m_wOverlapped;
+    OVERLAPPED m_rOverlapped;
 
-
+    std::ofstream m_logFile;
+    DWORD m_prevCommErrorBits;
+    DWORD m_prevcbInQue;
+    DWORD m_lastReadError;
+    char m_priorCharacterXmit;
+    std::chrono::steady_clock::time_point m_disconnectChecked;
+    short m_CommPortNumber;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(WlTncA), CWlTncA)

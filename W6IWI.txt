@@ -1,0 +1,171 @@
+Each command consists of a command string, and zero or more parameters.
+Parameters are tab delimited, and the command is terminated with a carriage
+return. Commands take effect immediately. They can be saved to be reloaded on
+the next power cycle. If no parameter is given, the current value of the
+parameter is returned. If a command is not recognized, an error message is shown
+along with a hash of the command. Commands ARE case sensitive! In the list
+below, the default value of each parameter is shown along with a
+description of the command.
+
+AfskOutputContinuous      0        If nonzero, the AFSK output is active in both
+                                   transmit and receive. If zero, the output is
+                                   only active in transmit.
+AgcLpfF                   1.0      Set the frequency of the AGC control loop low
+                                   pass filter. A lower number makes the AGC
+                                   respond more slowly
+AgcMaxGain                15.0     The maximum gain the AGC will achieve with no
+                                   input signal
+AgcTargetLevel            0.6      The AGC adjusts its gain to yield this output
+                                   level to the remainder of the demodulator
+Autostart                 1        1 enables autostart. 0 disables autostart. If
+                                   autostart is enabled, loop will not be keyed
+                                   unless motor LED is lit due to presence of
+                                   qualified signal (above MarkHoldThresh and
+                                   AutostartGoodChars received).
+AutostartGoodChars        10       How many sequential good characters to trigger
+                                   autostart
+AutostartShutdownSeconds  30       Integer number of seconds after loss of mark
+                                   tone when motor is shut down
+AutostartThresh           0.5      Discriminator threshold (mark level minus
+                                   space level) that will start motor. Too low a
+                                   level can give false starts on noise. Too
+                                   high a level can keep the motor from starting
+                                   on a weak signal. If the Input BPF is enabled
+                                   this is typically set to 0.5. This level can
+                                   be set low if AutostartGoodChars is greater
+                                   than 5 or so since noise will cause a bad
+                                   character (bad stop bit) keeping the required
+                                   number of good sequential characters to not be
+                                   met.
+BaudRate                  45.45    The transmit baud rate in bits per second.
+                                   Used to set the speed of the Baudot UART and
+                                   tone filter bandwidths.
+BootToModem               0        If nonzero, goes to modem mode instead of
+                                   CLE. Escape to return to CLI.
+DataLpfBwBrMult           1.0      Multiply this by Baud Rate to get the
+                                   bandwidth (cutoff frequency) of the data low
+                                   pass filters (one eacj for mark amd s[ace).
+DTC                       1        1 enables Dynamic Threshold Control; 0
+                                   disables. Enable for "AM Demodulation",
+                                   where the limiter is disabled.
+FreqAdjPercent            0.0      Make minor adjustment (+/- 5%) to sample
+                                   rate to correct for CPU clock error. Adjusts
+                                   all frequencies. For example, if 170 Hz Mark
+                                   frequency is 2138 Hz instead of 2125 Hz, set
+                                   FreqAdjPercent to -0.7.
+InputBpfBwShiftMult       1.0      Input BPF Bandwidth is shift times this.
+KOS                       1        1 enables Keyboard Operated Send. 0 disables.
+KosDropSeconds            3.0      How many seconds after the last typed
+                                   character until the transceiver is switched
+                                   from transmit to receive.
+Use ?? for additional commands
+>
+
+LoadDefaultConfig                  No parameters. Loads default configuration.
+LoadSavedConfig                    No parameters. Loads the configuration saved
+                                   to external flash.
+MarkHoldThresh            0.3      Sustained discriminator levels below this
+                                   threshold put the demodulator in mark to
+                                   avoid printing on noise. If the Input LPF is
+                                   enabled, this is typically increased to 0.5
+modem                              No parameters. Switches USB terminal to the
+                                   Baudot UART to transmit and receive data. ESC
+                                   returns to the command interpreter.
+MsLevel                   1000 1   Prints the mark and space demodulator output
+                                   levels with a comma delimiter. The first
+                                   print. The second is the number of times to
+                                   milliseconds between samples. If the second
+                                   argument is deleted, data is sample and
+                                   printed once a second. If the first argument
+                                   is deleted, the data is printed once.
+NarrowHfEq                0.0      How many dB to boost the high tone level over
+                                   the low tone level when running narrow shift.
+                                   Can be positive or negative.
+NarrowShiftCenterFreq     2210.0   Mean of Mark and Space frequencies for tone
+                                   filters and tone generator.
+NarrowShiftHz             170.0    Difference between Mark and Space
+                                   frequencies. System sets Mark frequency to
+                                   Center-(Shift/2) and Space to
+                                   Center+(Shift/2) unless MarkHi is enabled,
+                                   reversing these tones.
+NoLoop                    0        Allows operation without a loop supply,
+                                   instead using the software uart and USB.
+                                   If NoLoop = 1, KOS and AFSK generation will
+                                   ignore the lack of loop current.
+PLN                       100      Print relative power line noise every second
+                                   for the specified number of seconds. If no
+                                   number specified, print once.
+PrintConfig                        No parameters. Prints the current system
+                                   configuration.
+PrintRxReport                      Prints the number of received characters
+                                   (valid start bits), the number of bad
+                                   characters (bad stop bit), and the
+                                   percentage error. If a parameter of zero
+                                   is used, clears counters after printing
+                                   report. Also, report can be transmitted by
+                                   typing !ER on Teletype or on terminal when
+                                   in modem mode (terminal to Baudot AFSK). Note
+                                   also that a transmit to receive transition
+                                   resets the counters.
+PrintSavedConfig                   No parameters. Prints saved configuration.
+Reset                              No parameters. Loops until WDT times out
+                                   (1.024 seconds), resetting system.
+RYcount                            Prints the number of R characters received
+                                   followed by the number of Y characters. Both
+                                   counters are then reset.
+SaveConfig                         No parameters. Saves the current
+                                   configuration to external flash to be loaded
+                                   on next power up.
+TimeoutCounterMin                  No parameters. Used to determine if we are
+                                   getting to audio samples in time. Should be
+                                   zero.
+ToneFilterBwBrMult        1.7      The BaudRate is multiplied by this value to
+                                   yield the bandwidth of the tone filters. This
+                                   is set to the lowest value possible that
+                                   results in full discriminator swing in 1/2
+                                   bit time
+UsbBaud                   921600   Set or read  bit rate for USB UART
+UsbEcho                   0        0 disables echo on USB (half duplex), 1
+                                   enables (full duplex).
+UseAgc                    1        0 disables AGC. 1 enables AGC sampling input
+                                   data to set gain. Users may choose to use the
+                                   limiter instead of the AGC. With either the
+                                   limiter or the AGC, the Input BPF should be
+                                   used to keep the limiter or AGC  from being
+                                   taken over by off-frequency signals.
+UseInputBpf               1        1 enables the input bandpass filter; 0
+                                   disables it. The input BPF may be useful on
+                                   narrow shift especially if the limiter is
+                                   used (instead of the AGC) to prevent other
+                                   signals from taking over the limiter.
+UseLimiter                0        1 enables the limiter; 0 disables it. Users
+                                   may choose to use the limiter (FM
+                                   demodulation) or the AGC (AM demodulation).
+wfChipId                           No parameters. Reads the Chip ID of the
+                                   WiFi module.
+WfConnect                          No parameters. Connects to the access point
+                                   with the SSID and password (see WfSsid and
+                                   WfPw). Runs DHCP to get IP address. Runs NTP
+                                   to get time.
+WfRfRev                            No parameters. Reads the RF revision of the
+                                   WiFi module.
+WfMac                              No parameters. Reads the MAC address of the
+                                   WiFi module.
+WfPw                               Set or read the password used to connect to
+                                   the WiFi access point (see WfConnect).
+WfScan                             No parameters. Scans for WiFi access points.
+                                   Prints index, RSSI, and SSID for each found
+                                   access point.
+WfSsid                             Set or read the SSID of the access point to
+                                   connect to (see WfConnect).
+WideHfEq                  0.0      How many dB to boost the high tone level over
+                                   the low tone level when running wide shift.
+                                   Can be positive or negative.
+WideShift                 0        1 selects wide shift (tyipcally 850 Hz).
+                                   0 selects narrow shift (typically 170 Hz).)
+WideShiftCenterFreq       2000.0   As described for NarrowShiftCenterFreq, this
+                                   sets the Mark/Space center frequency when
+                                   wide shift is selected.
+WideShiftHz               850.0    As described for NarrowShiftHz, this sets the
+                                   difference between the Mark and Space
+                                   frequencies.

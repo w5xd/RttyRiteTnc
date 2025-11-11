@@ -1,12 +1,8 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-    <?define TNC_FILENAME = WlTncABC?>
-    <?define TNC_OBJECT_GUID = {1a891ad9-504d-45df-91f7-439bbe294cdb}?>    <!-- From WlTnc.idl, coclass -->
-    <!-- CUSTOMIZE THESE GUIDS:
-        UpgradeCode="56860497-de09-4b63-8adf-a57be6a7888b"   Appears in TWO places below!
-        Guid="{076BA5F5-E1FA-494C-99DC-52C005EC5041}"  in the <Component> below
-        -->
+    <?define TNC_FILENAME = WlTncW6IWI?>
+    <?define TNC_OBJECT_GUID = {785E8A35-3D60-4677-9F93-E572D921F320}?>    <!-- From WlTnc.idl, coclass -->
     <Package Name="$(var.TNC_FILENAME)Setup" Language="1033" Version="$(var.TNC_INSTALL_PROJECT_VERSION)" Manufacturer="WriteLog Contesting Software LLC"
-             UpgradeCode="56860497-de09-4b63-8adf-a57be6a7888b"
+             UpgradeCode="785E8A35-3D60-4677-9F93-E572D921F320"
              InstallerVersion="200">
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
         <Upgrade Id="6F5FD1B8-1F40-49ba-B540-9B41A2C74DEE">
@@ -19,7 +15,7 @@
             <UpgradeVersion OnlyDetect="yes" Property="PREVIOUSFOUND12" Minimum="12.0.0" IncludeMinimum="yes" Maximum="13.0.0" IncludeMaximum="no" />
         </Upgrade>
 
-        <Upgrade Id="56860497-de09-4b63-8adf-a57be6a7888b">
+        <Upgrade Id="785E8A35-3D60-4677-9F93-E572D921F320">
             <!--Self-->
             <UpgradeVersion OnlyDetect="no" Property="PREVIOUSTESTINSTALLPROJECTFOUND" Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.TNC_INSTALL_PROJECT_VERSION)" IncludeMaximum="no" />
         </Upgrade>
@@ -43,7 +39,7 @@
         <StandardDirectory Id="ProgramFilesFolder">
             <Directory Id="INSTALLDIR" Name="WriteLog">
                 <Directory Id="WlPrograms" Name="Programs">
-                    <Component Id="PROJECT.dll" Guid="{076BA5F5-E1FA-494C-99DC-52C005EC5041}" Bitness="always32">
+                    <Component Id="PROJECT.dll" Guid="{3ADC896A-1022-40F3-BB7F-36085D1AD854}" Bitness="always32">
                         <File Id="WlTnc.dll" KeyPath="yes"  Checksum="yes" Source="..\Release\$(var.TNC_FILENAME).dll" />
                         <RegistryKey Root="HKCR" Key="WriteLog.$(var.TNC_FILENAME)" >
                             <RegistryValue Key="CLSID" Type="string" Value="$(var.TNC_OBJECT_GUID)"/>
@@ -52,7 +48,7 @@
                             <RegistryValue Key="InprocServer32"  Value = "[WlPrograms]$(var.TNC_FILENAME).dll" Type = "string"  />
                         </RegistryKey>
                         <RegistryKey Root="HKLM" Key="Software\W5XD\WriteLog\RttyRite">
-                            <RegistryValue Name="CustomTnc1MenuEntry" Value="Custom $(var.TNC_FILENAME)"/>
+                            <RegistryValue Name="CustomTnc1MenuEntry" Value="W6IWI DSP"/>
                             <RegistryValue Name="CustomTnc1ProgId" Value="WriteLog.$(var.TNC_FILENAME)"/>
                         </RegistryKey>
                     </Component>

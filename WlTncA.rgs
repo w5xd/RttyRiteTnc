@@ -2,13 +2,13 @@ HKCR
 {
 	NoRemove CLSID
 	{
-		ForceRemove {1a891ad9-504d-45df-91f7-439bbe294cdb} = s 'WlTncA class'
+		ForceRemove {785E8A35-3D60-4677-9F93-E572D921F320} = s 'WlTncA class'
 		{
 			InprocServer32 = s '%MODULE%'
 			{
 				val ThreadingModel = s 'Apartment'
 			}
-			TypeLib = s '{9a1ee755-f1eb-44e4-96e2-1a891d583999}'
+			TypeLib = s '{94A1B6B7-B462-4F0E-A190-C3B92A966D90}'
 			Version = s '1.0'
 		}
 	}

@@ -79,6 +79,7 @@
     <None Include="WlTnc.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Build.cmd" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="WlTnc.idl">
@@ -90,5 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="W6IWI.txt" />
   </ItemGroup>
 </Project>

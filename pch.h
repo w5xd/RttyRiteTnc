@@ -9,5 +9,12 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include <Shlobj.h>
+#include <time.h>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <chrono>
+#include <fstream>
 
 #endif //PCH_H

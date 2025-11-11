@@ -3,10 +3,10 @@
     <ImportGroup Label="PropertySheets">
     </ImportGroup>
     <PropertyGroup Label="UserMacros">
-        <TncVersion1>0</TncVersion1>
-        <TncVersion2>9</TncVersion2>
+        <TncVersion1>1</TncVersion1>
+        <TncVersion2>0</TncVersion2>
         <TncVersion3>1</TncVersion3>
-        <TncVersion4>2</TncVersion4>
+        <TncVersion4>0</TncVersion4>
     </PropertyGroup>
     <ItemDefinitionGroup />
     <ItemGroup>

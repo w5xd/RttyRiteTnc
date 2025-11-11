@@ -20,13 +20,13 @@ BLOCK "StringFileInfo"
 BEGIN
 BLOCK "040904B0"
 BEGIN
-VALUE "CompanyName", "TODO: <Company name>"
-VALUE "FileDescription", "TODO: <File description>"
+VALUE "CompanyName", "WriteLog Contesting Software, LLC"
+VALUE "FileDescription", "RttyRite TNC for W6IWI TU"
 VALUE "FileVersion", TNC_VERSION_STRING
-VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
-VALUE "InternalName", "WlTnc.dll"
-VALUE "OriginalFilename", "WlTnc.dll"
-VALUE "ProductName", "TODO: <Product name>"
+VALUE "LegalCopyright", "Copyright \251 WriteLog Contesting Software\054 LLC, 2025"
+VALUE "InternalName", "WlTncW6IWI.dll"
+VALUE "OriginalFilename", "WlTncW6IWI.dll"
+VALUE "ProductName", "WlTncW6IWI"
 VALUE "ProductVersion", TNC_VERSION_STRING
 END
 END
