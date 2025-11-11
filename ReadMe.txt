@@ -9,5 +9,5 @@ example:
 W6IWI_TNC_BAUD=9600 
 
 Version 1.0.1
-    As tested.
+    Initial release. As tested.
 
